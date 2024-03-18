@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .volunteer-header {
+            background-color: #28a745;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .volunteer-content {
+            padding: 20px;
+        }
+        .volunteer-widget {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="volunteer-header">
+        <h1>Welcome, Volunteer!</h1>
+        <button onclick="logout()" style="float: right; margin-top: -30px; padding: 5px 10px;">Logout</button>
+    </div>
+    <div class="volunteer-content">
+        <div class="volunteer-widget">
+            <h2>Your Upcoming Events</h2>
+            <p>Don't forget to prepare for the community clean-up this weekend.</p>
+        </div>
+        <div class="volunteer-widget">
+            <h2>Recent Announcements</h2>
+            <p>Check out the latest news from our organization.</p>
+        </div>
+    </div>
+
+<script>
+    function logout() {
+        window.location.href = '/logout';
+    }
+</script>
+</body>
+</html>
+
