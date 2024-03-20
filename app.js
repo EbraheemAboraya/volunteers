@@ -1,15 +1,21 @@
 require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
+const cors = require("cors");
 const { connectDB } = require("./db/dbconnect");
 const loginRout = require("./router/login");
 const adminRout = require("./router/admin");
-const volunteerRout = require("./router/volunter");
+const volunteerRout = require("./router/volunteer"); // Corrected spelling from 'volunter' to 'volunteer'
 const path = require("path");
 
 const app = express();
-const cors = require("cors");
 const port = process.env.PORT || 3000;
+
+// Apply CORS middleware globally, adjust according to your needs
+app.use(cors({
+  origin: ["http://localhost:5173", "https://volunteers.onrender.com"], // Add other origins as needed
+  credentials: true, // To support sessions
+}));
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
@@ -30,46 +36,6 @@ app.use(loginRout);
 app.use(adminRout);
 app.use(volunteerRout);
 
-// Apply CORS middleware globally
-app.use(cors());
-
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-// require("dotenv").config();
-// const express = require("express");
-// const session = require("express-session");
-// const { connectDB } = require("./db/dbconnect");
-// const loginRout = require("./router/login");
-// const adminRout = require("./router/admin");
-// const volunteerRout = require("./router/volunter");
-// const path = require("path");
-
-// const app = express();
-// const cors = require("cors");
-// const port = process.env.PORT || 3000;
-
-// app.use(express.static(path.join(__dirname, "public")));
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-// app.use(
-//   session({
-//     secret: "secret",
-//     resave: true,
-//     saveUninitialized: true,
-//   })
-// );
-// app.set("view engine", "ejs");
-
-// connectDB();
-
-// // Routes
-// app.use(loginRout);
-// app.use(adminRout);
-// app.use(volunteerRout);
-// app.use(cors());
-
-// app.listen(port, () => {
-//   console.log(`http://localhost:${port}/login`);
-// });
