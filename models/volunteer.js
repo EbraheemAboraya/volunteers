@@ -4,9 +4,11 @@ const volunteerSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   userName: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  address: { type: String, required: true },
+
   skills: [String],
   availability: [String],
-  role: { type: String, required: true}, 
+  role: { type: String, required: true },
 });
 
 const Volunteer = mongoose.model("Volunteer", volunteerSchema);

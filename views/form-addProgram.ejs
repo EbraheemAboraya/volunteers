@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Program</title>
+</head>
+<body>
+    <h1>Add Program</h1>
+    <form action="/add-program" method="POST" enctype="multipart/form-data">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" required></textarea><br><br>
+        
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address" required><br><br>
+        
+        <label for="startDate">Start Date:</label><br>
+        <input type="date" id="startDate" name="startDate" required><br><br>
+        
+        <label for="endDate">End Date:</label><br>
+        <input type="date" id="endDate" name="endDate" required><br><br>
+        
+        <!-- <label for="logo">Logo:</label><br>
+        <input type="file" id="logo" name="logo"><br><br> -->
+        
+        <label for="image">Program Image:</label><br>
+        <input type="file" id="image" name="image"><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
