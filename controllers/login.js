@@ -12,6 +12,7 @@ const showSignupForm = (req, res) => {
 
 const login = async (req, res) => {
   const { userName, password } = req.body;
+  console.log("ihm hereeeeeeeeeeeeeeeeeeeeeeeee");
   try {
     const admin = await adminRepository.findByUsername(userName);
     if (!admin) {
@@ -21,14 +22,14 @@ const login = async (req, res) => {
       }
       if (password === volunteer.password) {
         req.session.user = volunteer;
-        return res.redirect("/volunteer/index");
+        return true;
       }
     }
     if (password === admin.password) {
       req.session.user = admin;
       return res.redirect("/admin/index");
     } else {
-      return res.status(401).send("Invalid username or password");
+      return false;
     }
   } catch (error) {
     return res.status(500).send("Error logging in");
