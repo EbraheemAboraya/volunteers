@@ -1,11 +1,11 @@
 require("dotenv").config();
+const cors = require("cors");
 const express = require("express");
 const session = require("express-session");
 const { connectDB } = require("./db/dbconnect");
 const loginRout = require("./router/login");
 const adminRout = require("./router/admin");
 const volunteerRout = require("./router/volunter");
-const cors = require("cors");
 const path = require("path");
 
 const app = express();
@@ -29,11 +29,8 @@ connectDB();
 app.use(loginRout);
 app.use(adminRout);
 app.use(volunteerRout);
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+app.use(cors());
+
 app.listen(port, () => {
   console.log(`http://localhost:${port}/login`);
 });
