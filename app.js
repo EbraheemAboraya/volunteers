@@ -29,8 +29,11 @@ connectDB();
 app.use(loginRout);
 app.use(adminRout);
 app.use(volunteerRout);
-app.use(cors());
-
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 app.listen(port, () => {
   console.log(`http://localhost:${port}/login`);
 });
