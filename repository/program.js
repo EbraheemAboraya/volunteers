@@ -1,4 +1,4 @@
-const Program = require("../models/Program");
+const Program = require("../models/program");
 
 module.exports = {
   async getProgramByAddress(address) {
@@ -12,7 +12,7 @@ module.exports = {
   async addProgram(data) {
     try {
       const newProgram = new Program(data);
-       await newProgram.save();
+      await newProgram.save();
       return newProgram;
     } catch (error) {
       throw new Error("Error saving program: " + error.message);
