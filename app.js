@@ -1,5 +1,4 @@
 require("dotenv").config();
-const cors = require("cors");
 const express = require("express");
 const session = require("express-session");
 const { connectDB } = require("./db/dbconnect");
@@ -9,6 +8,7 @@ const volunteerRout = require("./router/volunter");
 const path = require("path");
 
 const app = express();
+const cors = require("cors");
 const port = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
