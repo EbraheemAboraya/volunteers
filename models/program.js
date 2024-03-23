@@ -13,6 +13,14 @@ const programSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  type: {
+    type: String,
+    required: true
+  },
+  maxVolunteer: {
+    type: Number,
+    required: true
+  },
   startDate: {
     type: Date,
     required: true
@@ -21,18 +29,15 @@ const programSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  // logo: {
-  //   filename: String,
-  //   contentType: String,
-  //   image: Buffer
-  // },
   image: {
     filename: String,
     contentType: String,
     image: Buffer
   },
-  
-          
+  volunteers: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Volunteer'
+  }
 });
 
 const Program = mongoose.model('program', programSchema);

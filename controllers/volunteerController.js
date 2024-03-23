@@ -16,8 +16,8 @@ const signup = async (req, res) => {
 const getindex = async (req, res) => {
   try {
     user = req.session.user;
-    programs = await programRepo.getProgramByAddress(user.address);         
-    return res.render("volunteer-index",{programs});
+    programs = await programRepo.getProgramByAddress(user.address);  
+    return res.status(200).render('volunteer-index');
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });
   }

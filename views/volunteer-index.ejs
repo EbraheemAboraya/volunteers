@@ -101,7 +101,7 @@ body {
           <img class="request-image" src="data:<%= program.image.contentType %>;base64,<%= program.image.image.toString('base64') %>" alt="Client Image">
         </div>
         <div class="program-info">
-          <!-- <img class="request-image" src="data:<%= program.image.contentType %>;base64,<%= program.image.image.toString('base64') %>" alt="Client Image"> -->
+          <!-- <img src="<%= program.logoUrl %>" alt="Program Logo" class="program-logo"> -->
           <h2 class="program-name"><%= program.name %></h2>
           <p class="program-description">
             <%= program.description %>

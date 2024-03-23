@@ -27,6 +27,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+app.use(cors());
 app.set("view engine", "ejs");
 
 connectDB();
