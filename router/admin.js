@@ -7,9 +7,8 @@ const loginController = require('../controllers/login');
 
 
 
-router.get("/admin/index", checkRole("admin"), adminController.getProfile);
+
 router.post("/admin/signup", adminController.signup);
-router.get("/admin/addProgram", adminController.getProgramPage);
 router.post("/add-program", loginController.ensureToken, adminController.AddProgram);
 router.put("/update-program", loginController.ensureToken, adminController.updateProgram);
 router.delete("/delete-program", loginController.ensureToken, adminController.deleteProgram);

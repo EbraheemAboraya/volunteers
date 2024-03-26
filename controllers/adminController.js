@@ -21,21 +21,8 @@ const signup = async (req, res) => {
   }
 };
 
-const getProfile = async (req, res) => {
-  try {
-    res.render("admin-index");
-  } catch (err) {
-    return res.status(err?.status || 500).json({ message: err.message });
-  }
-};
 
-const getProgramPage = async (req, res) => {
-  try {
-    res.render("form-addProgram");
-  } catch (err) {
-    return res.status(err?.status || 500).json({ message: err.message });
-  }
-};
+
 
 const AddProgram = async (req, res) => {
   try {
@@ -110,9 +97,7 @@ const deleteProgram = async (req, res) => {
 };
 
 module.exports = {
-  getProfile,
   signup,
-  getProgramPage,
   AddProgram,
   updateProgram,
   deleteProgram,

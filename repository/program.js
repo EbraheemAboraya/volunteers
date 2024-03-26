@@ -1,9 +1,9 @@
 const Program = require("../models/program");
 
 module.exports = {
-  async getProgramByAddress(address) {
+  async getProgramByAddress(address, type) {
     try {
-      return await Program.find({ address });
+      return await Program.find({ address, type });
     } catch (error) {
       throw new Error("Error finding programs by address: " + error.message);
     }

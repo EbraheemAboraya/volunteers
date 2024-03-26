@@ -12,9 +12,9 @@ const showSignupForm = (req, res) => {
 
 const login = async (req, res) => {
   const { userName, password } = req.body;
-  console.log("ihm hereeeeeeeeeeeeeeeeeeeeeeeee");
   try {
     let user;
+
 
     const admin = await adminRepository.findByUsername(userName);
     if (admin) {
@@ -26,27 +26,21 @@ const login = async (req, res) => {
       } else {
         return res.status(401).send("Invalid username or password");
       }
-      if (password === volunteer.password) {
-        req.session.user = volunteer;
-        return true;
-      }
     }
-    let isMatch;
     if (password === user.password) {
-      isMatch = true;
+      const tokenPayload = {
+        id: user._id,
+        userName: user.userName,
+        role: user.role,
+        address: user.address,
+      };
+
+
+      const token = jwt.sign({ tokenPayload }, "my_secret_key");
+      return res.json({ token: token });
     } else {
       return false;
     }
-
-    const tokenPayload = {
-      id: user._id,
-      userName: user.userName,
-      role: user.role,
-    };
-
-    const token = jwt.sign({tokenPayload},'my_secret_key');
-    res.json({token: token});
-
   } catch (error) {
     console.error(error);
     res.status(500).send("Error logging in");

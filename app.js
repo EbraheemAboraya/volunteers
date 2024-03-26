@@ -5,8 +5,10 @@ const cors = require("cors");
 const { connectDB } = require("./db/dbconnect");
 const loginRout = require("./router/login");
 const adminRout = require("./router/admin");
-const volunteerRout = require("./router/volunteer"); // Corrected spelling from 'volunter' to 'volunteer'
+const volunteerRout = require("./router/volunteer"); 
 const path = require("path");
+const feedback = require("./router/feedback");
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -37,6 +39,8 @@ connectDB();
 app.use(loginRout);
 app.use(adminRout);
 app.use(volunteerRout);
+app.use(feedback);
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
