@@ -2,7 +2,6 @@ const programRepo = require("../repository/program");
 const volunteerRepo = require("../repository/volunteer");
 const jwt = require("jsonwebtoken");
 
-
 const signup = async (req, res) => {
   const { fullName, userName, password, skills, availability, role, address } =
     req.body;
@@ -32,38 +31,40 @@ const signup = async (req, res) => {
 
 const getPrograms = async (req, res) => {
   try {
-   
-    jwt.verify(req.token, "my_secret_key", async function (err, data) {
+    const tokenWithoutQuotes = req.token.replace(/"/g, '');
+    jwt.verify(tokenWithoutQuotes, "my_secret_key", async function (err, data) {
       if (err) {
-        res.sendStatus(403);
+        res.sendStatus(403); 
       } else {
-        const type = "organization";
-        const volunteerPrograms = await programRepo.getProgramByAddress(data.tokenPayload.address,type);
-        console.log(data.tokenPayload.address);
+        const type = "organization"; 
+        const volunteerPrograms = await programRepo.getProgramByAddress(
+          data.tokenPayload.address,
+          type
+        );
         return res.status(200).send(volunteerPrograms);
       }
     });
-
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });
   }
 };
 
-
 const getIndividual = async (req, res) => {
   try {
-   
-    jwt.verify(req.token, "my_secret_key", async function (err, data) {
+    const tokenWithoutQuotes = req.token.replace(/"/g, '');
+
+    jwt.verify(tokenWithoutQuotes, "my_secret_key", async function (err, data) {
       if (err) {
         res.sendStatus(403);
       } else {
         const type = "Individual";
-        const volunteerPrograms = await programRepo.getProgramByAddress(data.tokenPayload.address,type);
-        console.log(data.tokenPayload.address);
+        const volunteerPrograms = await programRepo.getProgramByAddress(
+          data.tokenPayload.address,
+          type
+        );
         return res.status(200).send(volunteerPrograms);
       }
     });
-
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });
   }

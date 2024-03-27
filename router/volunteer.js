@@ -5,7 +5,7 @@ const loginController = require('../controllers/login');
 
 
 
-router.get("/volunteer/index",loginController.ensureToken,volunteerController.getPrograms);
+router.get("/volunteer/programs",loginController.ensureToken,volunteerController.getPrograms);
 router.get("/volunteer/Individual",loginController.ensureToken,volunteerController.getIndividual);
 
 router.post("/volunteer/signup",volunteerController.signup);

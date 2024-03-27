@@ -21,9 +21,6 @@ const signup = async (req, res) => {
   }
 };
 
-
-
-
 const AddProgram = async (req, res) => {
   try {
     const {
@@ -103,8 +100,3 @@ module.exports = {
   deleteProgram,
 };
 
-// image: {
-//   filename: req.file.originalname,
-//   contentType: req.file.mimetype,
-//   image: req.file.buffer
-// },

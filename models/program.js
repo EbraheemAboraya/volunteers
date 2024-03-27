@@ -37,6 +37,10 @@ const programSchema = new mongoose.Schema({
   volunteers: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Volunteer'
+  },
+  Acceptedvolunteers: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Volunteer'
   }
 });
 

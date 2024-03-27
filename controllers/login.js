@@ -15,7 +15,6 @@ const login = async (req, res) => {
   try {
     let user;
 
-
     const admin = await adminRepository.findByUsername(userName);
     if (admin) {
       user = admin;
@@ -35,7 +34,6 @@ const login = async (req, res) => {
         address: user.address,
       };
 
-
       const token = jwt.sign({ tokenPayload }, "my_secret_key");
       return res.json({ token: token });
     } else {
@@ -51,6 +49,7 @@ const logout = (req, res) => {
   return res.redirect("/login");
 };
 
+
 function ensureToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];
   if (typeof bearerHeader !== "undefined") {
@@ -59,7 +58,7 @@ function ensureToken(req, res, next) {
     req.token = bearerToken;
     next();
   } else {
-    res.sendStatus(403); 
+    res.sendStatus(403);
   }
 }
 

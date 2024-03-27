@@ -1,9 +1,9 @@
 const Feedback=require("../models/feedback");
 
 
-async function getAllFeedback() {
+async function getAllFeedback(programId) {
     try {
-        const feedbackList = await Feedback.find();
+        const feedbackList = await Feedback.find({programId});
         return feedbackList;
     } catch (error) {
         console.error('Error getting all feedback:', error);
