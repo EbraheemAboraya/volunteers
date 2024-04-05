@@ -2,7 +2,14 @@ const feedbackRepo = require("../repository/Feedback");
 
 async function getAllFeedback(req, res) {
   try {
-    const feedbackList = await feedbackRepo.getAllFeedback(req.params.ProgramID);
+    const programID = req.params.ProgramID;
+    if (!programID || !programID.trim()) {
+      return res.status(400).json({ message: "ProgramID is required" });
+    }
+
+    const feedbackList = await feedbackRepo.getAllFeedback(
+      req.params.ProgramID
+    );
     return res.json(feedbackList);
   } catch (error) {
     res
@@ -30,9 +37,13 @@ async function getFeedbackByUserId(req, res) {
 
 async function addFeedback(req, res) {
   try {
+
+    const { programId, volunteers, content } = req.body;
+    if (!programId || !volunteers || !content) {
+        return res.status(400).json({ message: "Missing required feedback content" });
+    }
     const feedbackData = req.body;
     const feedback = await feedbackRepo.addFeedback(feedbackData);
-    console.log(feedback);
     res.status(201).json(feedback);
   } catch (error) {
     res
@@ -62,7 +73,7 @@ async function updateFeedback(req, res) {
 
 async function deleteFeedback(req, res) {
   try {
-    const feedbackId = req.params.id; 
+    const feedbackId = req.params.id;
     await feedbackRepo.deleteFeedback(feedbackId);
     res.status(200).json({ message: "Feedback deleted successfully" });
   } catch (error) {

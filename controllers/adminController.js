@@ -16,7 +16,7 @@ const signup = async (req, res) => {
     if (!admin) res.status(404).send("An error with saving admin");
     res.status(201).send("succfully");
   } catch (error) {
-    console.error("Error saving volunteer data:", error);
+    // console.error("Error saving volunteer data:", error);
     res.status(500).send("An error occurred while saving admin data.");
   }
 };
@@ -79,19 +79,26 @@ const deleteProgram = async (req, res) => {
       if (err) {
         res.sendStatus(403);
       } else {
-        const adminPrograms = await adminRepo.deleteProgram(
-          data.tokenPayload.id,
-          req.body._id
-        );
+        try {
+          const adminPrograms = await adminRepo.deleteProgram(
+            data.tokenPayload.id,
+            req.body._id
+          );
+          const deleted = await programRepo.deleteProgram(req.body);
+          if (!deleted) {
+            throw new Error("Error with deleting program");
+          }
+          res.status(200).json({ message: "Program successfully deleted" });
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
       }
     });
-    const deleted = await programRepo.deleteProgram(req.body);
-    if (!deleted) throw new Error("error with updating program");
-    res.status(200).json(deleted);
-  } catch (err) {
-    return res.status(err?.status || 500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
+
 
 module.exports = {
   signup,
@@ -99,4 +106,3 @@ module.exports = {
   updateProgram,
   deleteProgram,
 };
-

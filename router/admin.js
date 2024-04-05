@@ -9,9 +9,9 @@ const loginController = require('../controllers/login');
 
 
 router.post("/admin/signup", adminController.signup);
-router.post("/add-program", loginController.ensureToken, adminController.AddProgram);
-router.put("/update-program", loginController.ensureToken, adminController.updateProgram);
-router.delete("/delete-program", loginController.ensureToken, adminController.deleteProgram);
+router.post("/addprogram", loginController.ensureToken, adminController.AddProgram);
+router.put("/updateprogram", loginController.ensureToken, adminController.updateProgram);
+router.delete("/deleteprogram", loginController.ensureToken, adminController.deleteProgram);
 
 
 // router.post("/add-program",uploadMiddleware.single("image"),adminController.AddProgram);

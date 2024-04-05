@@ -6,8 +6,8 @@ const volunteerSchema = new mongoose.Schema({
   password: { type: String, required: true },
   address: { type: String, required: true },
 
-  skills: [String],
-  availability: [String],
+  skills: [{ type: String }],
+  availability: [{ type: String }],
   role: { type: String, required: true },
 });
 

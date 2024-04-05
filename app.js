@@ -35,7 +35,7 @@ app.use(
 app.use(cors());
 app.set("view engine", "ejs");
 
-connectDB();
+
 
 // Routes
 app.use(loginRout);
@@ -46,3 +46,9 @@ app.use(feedback);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+connectDB();
+
+
+
+module.exports = { app, connectDB };

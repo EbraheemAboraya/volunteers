@@ -9,6 +9,14 @@ module.exports = {
     }
   },
 
+  async getProgramAccept(userID , type) {
+    try {
+      return await Program.find({ address, type });
+    } catch (error) {
+      throw new Error("Error finding programs by address: " + error.message);
+    }
+  },
+
   async addProgram(data) {
     try {
       const newProgram = new Program(data);

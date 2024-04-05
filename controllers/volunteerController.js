@@ -24,19 +24,18 @@ const signup = async (req, res) => {
 
     return res.status(201).redirect("/login");
   } catch (error) {
-    console.error("Error saving volunteer data:", error);
     res.status(500).send("An error occurred while saving volunteer data.");
   }
 };
 
 const getPrograms = async (req, res) => {
   try {
-    const tokenWithoutQuotes = req.token.replace(/"/g, '');
+    const tokenWithoutQuotes = req.token.replace(/"/g, "");
     jwt.verify(tokenWithoutQuotes, "my_secret_key", async function (err, data) {
       if (err) {
-        res.sendStatus(403); 
+        res.sendStatus(403);
       } else {
-        const type = "organization"; 
+        const type = "organization";
         const volunteerPrograms = await programRepo.getProgramByAddress(
           data.tokenPayload.address,
           type
@@ -51,7 +50,7 @@ const getPrograms = async (req, res) => {
 
 const getIndividual = async (req, res) => {
   try {
-    const tokenWithoutQuotes = req.token.replace(/"/g, '');
+    const tokenWithoutQuotes = req.token.replace(/"/g, "");
 
     jwt.verify(tokenWithoutQuotes, "my_secret_key", async function (err, data) {
       if (err) {
