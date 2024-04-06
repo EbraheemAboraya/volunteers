@@ -12,6 +12,8 @@ router.post("/admin/signup", adminController.signup);
 router.post("/add-program", loginController.ensureToken, adminController.AddProgram);
 router.put("/update-program", loginController.ensureToken, adminController.updateProgram);
 router.delete("/delete-program", loginController.ensureToken, adminController.deleteProgram);
+router.post("/accept-volunteer",loginController.ensureToken,  adminController.acceptVolunteer);
+
 
 
 // router.post("/add-program",uploadMiddleware.single("image"),adminController.AddProgram);

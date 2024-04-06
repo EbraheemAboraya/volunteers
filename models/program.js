@@ -34,14 +34,14 @@ const programSchema = new mongoose.Schema({
     contentType: String,
     image: Buffer
   },
-  volunteers: {
+  volunteers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Volunteer'
-  },
-  Acceptedvolunteers: {
+  }],
+  Acceptedvolunteers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Volunteer'
-  }
+  }]
 });
 
 const Program = mongoose.model('program', programSchema);

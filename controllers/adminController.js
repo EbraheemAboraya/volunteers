@@ -31,8 +31,14 @@ const AddProgram = async (req, res) => {
       endDate,
       maxVolunteer,
       volunteers,
-      type,
     } = req.body;
+
+    let type;
+    if (maxVolunteer <= 3) {
+      type = "Individual";
+    } else {
+      type = "orgnaizaion";
+    }
 
     const newProgram = await programRepo.addProgram({
       name,
@@ -93,10 +99,22 @@ const deleteProgram = async (req, res) => {
   }
 };
 
+const acceptVolunteer = async (req, res) => {
+  try {
+    const data = req.body;
+
+    const response = await programRepo.acceptVolunteer(data);
+    if (!response) throw new Error("error with updating program");
+    res.status(200).json(response);
+  } catch (err) {
+    return res.status(err?.status || 500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   signup,
   AddProgram,
   updateProgram,
   deleteProgram,
+  acceptVolunteer,
 };
-

@@ -8,6 +8,8 @@ const adminRout = require("./router/admin");
 const volunteerRout = require("./router/volunteer");
 const path = require("path");
 const feedback = require("./router/feedback");
+const report = require("./router/report");
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -42,6 +44,9 @@ app.use(loginRout);
 app.use(adminRout);
 app.use(volunteerRout);
 app.use(feedback);
+app.use(report);
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

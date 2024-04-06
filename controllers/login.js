@@ -2,14 +2,6 @@ const jwt = require("jsonwebtoken");
 const adminRepository = require("../repository/admin");
 const volunteerRepository = require("../repository/volunteer");
 
-const showLoginForm = (req, res) => {
-  res.render("login");
-};
-
-const showSignupForm = (req, res) => {
-  res.render("signup");
-};
-
 const login = async (req, res) => {
   const { userName, password } = req.body;
   try {
@@ -32,6 +24,7 @@ const login = async (req, res) => {
         userName: user.userName,
         role: user.role,
         address: user.address,
+        name: user.fullName,
       };
 
       const token = jwt.sign({ tokenPayload }, "my_secret_key");
@@ -49,7 +42,6 @@ const logout = (req, res) => {
   return res.redirect("/login");
 };
 
-
 function ensureToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];
   if (typeof bearerHeader !== "undefined") {
@@ -62,10 +54,24 @@ function ensureToken(req, res, next) {
   }
 }
 
+function getUserData(req, res) {
+  try {
+    const tokenWithoutQuotes = req.token.replace(/"/g, "");
+    jwt.verify(tokenWithoutQuotes, "my_secret_key", async function (err, data) {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        return res.status(200).send(data.tokenPayload);
+      }
+    });
+  } catch (err) {
+    return res.status(err?.status || 500).json({ message: err.message });
+  }
+}
+
 module.exports = {
-  showLoginForm,
-  showSignupForm,
   login,
   logout,
   ensureToken,
+  getUserData,
 };

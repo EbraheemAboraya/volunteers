@@ -32,7 +32,6 @@ module.exports = {
       if (!admin) {
         throw new Error("Admin not found");
       }
-
       admin.programs.push(programId);
       return await admin.save();
     } catch (error) {

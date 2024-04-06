@@ -1,5 +1,6 @@
 const feedbackRepo = require("../repository/Feedback");
 
+
 async function getAllFeedback(req, res) {
   try {
     const feedbackList = await feedbackRepo.getAllFeedback(req.params.ProgramID);
@@ -28,18 +29,17 @@ async function getFeedbackByUserId(req, res) {
   }
 }
 
-async function addFeedback(req, res) {
-  try {
-    const feedbackData = req.body;
-    const feedback = await feedbackRepo.addFeedback(feedbackData);
-    console.log(feedback);
-    res.status(201).json(feedback);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error adding feedback", error: error.message });
-  }
-}
+// async function addFeedback(req, res) {
+//   try {
+//     const feedbackData = req.body;
+//     const feedback = await feedbackRepo.addFeedback(feedbackData);
+//     res.status(201).json(feedback);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Error adding feedback", error: error.message });
+//   }
+// }
 
 async function updateFeedback(req, res) {
   try {
@@ -75,7 +75,6 @@ async function deleteFeedback(req, res) {
 module.exports = {
   getAllFeedback,
   getFeedbackByUserId,
-  addFeedback,
-  updateFeedback,
+    updateFeedback,
   deleteFeedback,
 };
