@@ -1,4 +1,5 @@
 const Program = require("../models/program");
+
 const Feedback = require("../repository/Feedback");
 
 module.exports = {
@@ -102,7 +103,11 @@ module.exports = {
       const program = await Program.findById({ _id: program_id });
       if (!program) throw new Error("program not found");
 
-      const resFeedback = await Feedback.addFeedback(program_id, volunteer_id, reviewText);
+      const resFeedback = await Feedback.addFeedback(
+        program_id,
+        volunteer_id,
+        reviewText
+      );
       if (!resFeedback) throw new Error("error with adding feedback");
       program.Acceptedvolunteers.pop(volunteer_id);
       return await program.save();
@@ -111,4 +116,25 @@ module.exports = {
       throw error;
     }
   },
+
+  async getProgramsData(programs) {
+    try {
+      const programsData = [];
+      for (const programId of programs) {
+        const program = await Program.findById(programId);
+        if (!program) {
+          throw new Error(`Program with ID ${programId} not found`);
+        }
+        programsData.push(program);
+      }
+      return programsData;
+    } catch (error) {
+      console.error("Error retrieving program data:", error);
+      throw error;
+    }
+  },
+
+
+
+
 };

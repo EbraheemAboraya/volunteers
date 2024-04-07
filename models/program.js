@@ -30,9 +30,8 @@ const programSchema = new mongoose.Schema({
     required: true
   },
   image: {
-    filename: String,
-    contentType: String,
-    image: Buffer
+    data: Buffer,
+    contentType: String
   },
   volunteers: [{
     type: mongoose.Schema.Types.ObjectId,

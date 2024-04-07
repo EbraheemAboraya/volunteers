@@ -8,6 +8,18 @@ module.exports = {
     return report;
   },
 
+  async getReports(programId, volunteerId) {
+    try {
+
+      const reports = await Report.find({ programId: programId, volunteer: volunteerId });
+      return reports;
+    } catch (error) {
+      // Handle errors
+      console.error('Error fetching reports:', error);
+      throw error;
+    }
+  }
+
 
 
 

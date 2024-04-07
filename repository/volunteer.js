@@ -34,5 +34,18 @@ module.exports = {
     catch (error) {
       throw new Error("Error with volunteer signup");
     }
-  }
+  },
+
+  async getVolunteerData(_id) {
+    try {
+        const volunteerData = await Volunteer.findById(_id);
+        if (!volunteerData) {
+          throw new Error(`volunteer with ID ${_id} not found`);
+        }
+      return volunteerData;
+    } catch (error) {
+      console.error("Error retrieving program data:", error);
+      throw error;
+    }
+  },
 };

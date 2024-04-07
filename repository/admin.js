@@ -50,10 +50,20 @@ module.exports = {
       if (indexToRemove === -1) {
         throw new Error("Program not found for this admin");
       }
-  
+
       admin.programs.splice(indexToRemove, 1);
       return await admin.save();
-
+    } catch (error) {
+      throw error;
+    }
+  },
+  async getAdminData(_id) {
+    try {
+      const admin = await adminSchema.findById(_id);
+      if (!admin) {
+        throw new Error("Admin not found");
+      }
+      return admin;
     } catch (error) {
       throw error;
     }

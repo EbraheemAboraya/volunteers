@@ -38,9 +38,13 @@ const login = async (req, res) => {
   }
 };
 
-const logout = (req, res) => {
-  return res.redirect("/login");
+function logout (req, res) {
+   res.clearCookie('my_secret_key');
+  
 };
+
+
+
 
 function ensureToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];
