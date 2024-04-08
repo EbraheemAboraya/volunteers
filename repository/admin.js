@@ -1,15 +1,9 @@
 const adminSchema = require("../models/admin");
 
 module.exports = {
-  async saveData(fullName, userName, password, role, programs) {
+  async saveData(data) {
     try {
-      const newAdmin = new adminSchema({
-        fullName,
-        userName,
-        password,
-        role,
-        programs,
-      });
+      const newAdmin = new adminSchema(data);
       return await newAdmin.save();
     } catch (error) {
       throw new Error("Error saving user");
@@ -26,6 +20,7 @@ module.exports = {
   },
 
   async addProgramToAdmin(adminId, programId) {
+    console.log(adminId, programId)
     try {
       const admin = await adminSchema.findById(adminId);
 

@@ -2,22 +2,13 @@ const express = require("express");
 const router = express.Router();
 const adminController = require("../controllers/adminController");
 const checkRole = require("../middleware/authMiddleware");
-const uploadMiddleware = require("../middleware/img");
 const loginController = require("../controllers/login");
-const multer = require("multer");
+const upload = require("../middleware/img");
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname);
-    }
-  });
-  
-  const upload = multer({ storage: storage });
 
-router.post("/admin/signup", adminController.signup);
+router.post("/admin/signup", upload.single('selectedFile'),adminController.signup);
+
+
 router.post(
   "/add-program",
   loginController.ensureToken,
@@ -42,6 +33,11 @@ router.post(
   loginController.ensureToken,
   adminController.acceptVolunteer
 );
+router.post(
+  "/reject-volunteer",
+  loginController.ensureToken,
+  adminController.rejectVolunteer
+);
 router.get(
   "/admin/getAdminData",
   loginController.ensureToken,
@@ -52,6 +48,15 @@ router.get(
   loginController.ensureToken,
   adminController.getAdminPrograms
 );
+router.get(
+  "/admin/getProgramstoVolunteers",
+  loginController.ensureToken,
+  adminController.getProgramstoVolunteers
+);
+
+
+
+
 router.get(
   "/admin/getVolunteerData/:id",
   loginController.ensureToken,

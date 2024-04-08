@@ -8,7 +8,12 @@ const adminSchema = new mongoose.Schema({
   programs: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Program'
-  }]
+  }],
+  image: {
+    filename: String,
+    contentType: String,
+    image: Buffer
+  },
 });
 
 const Admin = mongoose.model("Admin", adminSchema);

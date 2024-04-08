@@ -1,16 +1,38 @@
 const feedbackRepo = require("../repository/Feedback");
+const volunteerRepo = require("../repository/volunteer");
+
+
 
 
 async function getAllFeedback(req, res) {
   try {
+    let volunteerArr = [];
     const feedbackList = await feedbackRepo.getAllFeedback(req.params.ProgramID);
-    return res.json(feedbackList);
+    
+    if (!feedbackList) {
+      return flase
+    }
+    for (let i = 0; i < feedbackList.length; i++) {
+      let feedback = feedbackList[i];
+      const volunteer = await volunteerRepo.getVolunteerData(feedback.volunteers);
+      if (volunteer) {
+        const row = {
+          _id:feedback._id,
+          content: feedback.content,
+          name: volunteer.fullName,
+          image:volunteer.image,
+        };
+        volunteerArr.push(row);
+      }
+    }
+    return res.json(volunteerArr);
   } catch (error) {
     res
       .status(500)
       .json({ message: "Error retrieving feedback", error: error.message });
   }
 }
+
 
 async function getFeedbackByUserId(req, res) {
   try {

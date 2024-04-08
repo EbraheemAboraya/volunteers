@@ -4,24 +4,21 @@ module.exports = {
   // Add a new report
   async addReport(reportData) {
     const report = new Report(reportData);
-    await report.save();
-    return report;
+    return await report.save();
   },
 
   async getReports(programId, volunteerId) {
     try {
-
-      const reports = await Report.find({ programId: programId, volunteer: volunteerId });
+      const reports = await Report.find({
+        programId: programId,
+        volunteer: volunteerId,
+      });
       return reports;
     } catch (error) {
-      // Handle errors
-      console.error('Error fetching reports:', error);
+      console.error("Error fetching reports:", error);
       throw error;
     }
-  }
-
-
-
+  },
 
   // // Delete a report by ID
   // async deleteReportById(reportId) {

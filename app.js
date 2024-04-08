@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 const report = require("./router/report");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 2000;
 
 app.use(cors());
 
@@ -29,8 +29,27 @@ app.use(
   })
 );
 
+
+
+
+
+
+
+const fs = require("fs");
+const dir = "./uploads";
+ 
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, { recursive: true });
+}
+ 
+const uploadsDir = path.join(__dirname, "uploads");
+ 
 app.use(cors());
 app.set("view engine", "ejs");
+
+
+
+
 
 connectDB();
 

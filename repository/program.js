@@ -5,25 +5,43 @@ const Feedback = require("../repository/Feedback");
 module.exports = {
   async getProgramByAddress(_id, address, type) {
     try {
-      return await Program.find({
+
+      const programs = await Program.find({
         address,
         type,
         Acceptedvolunteers: { $ne: _id },
       });
+
+      return programs;
     } catch (error) {
       throw new Error("Error finding programs by address: " + error.message);
     }
   },
 
-  async addProgram(data) {
+  async getProgramById(programId) {
     try {
-      const newProgram = new Program(data);
-      await newProgram.save();
-      return newProgram;
+      const program = await Program.findById(programId);
+      if (!program) {
+        return false;
+      }
+      return program;
+    } catch (error) {
+      console.error("Error send request to join program:", error);
+      throw error;
+    }
+  },
+
+  async addProgram(reqData) {
+    try {
+      const program = new Program(reqData);
+      await program.save();
+
+      return program;
     } catch (error) {
       throw new Error("Error saving program: " + error.message);
     }
   },
+
   async updateProgram(data) {
     try {
       const { _id, ...updateData } = data;
@@ -56,6 +74,7 @@ module.exports = {
     }
   },
   async sendToJoin(volunteer_id, program_id) {
+    console.log(volunteer_id, program_id);
     try {
       const program = await Program.findById({ _id: program_id.program_id });
       if (!program) {
@@ -69,15 +88,31 @@ module.exports = {
     }
   },
 
-  async acceptVolunteer(data) {
+  async acceptVolunteer(programId, volunteerId) {
     try {
-      const program = await Program.findById({ _id: data.porgram_id });
-
+      const program = await Program.findById({ _id: programId });
       if (!program) {
         throw new Error("program not found");
       }
-      program.Acceptedvolunteers.push(data.volunteer_id);
-      program.volunteers.pop(data.volunteer_id);
+      program.volunteers = program.volunteers.filter(
+        (id) => id.toString() !== volunteerId
+      );
+      program.Acceptedvolunteers.push(volunteerId);
+      return await program.save();
+    } catch (error) {
+      console.error("Error send request to join program:", error);
+      throw error;
+    }
+  },
+  async rejectVolunteer(programId, volunteerId) {
+    try {
+      const program = await Program.findById({ _id: programId });
+      if (!program) {
+        throw new Error("program not found");
+      }
+      program.volunteers = program.volunteers.filter(
+        (id) => id.toString() !== volunteerId
+      );
       return await program.save();
     } catch (error) {
       console.error("Error send request to join program:", error);
@@ -108,8 +143,11 @@ module.exports = {
         volunteer_id,
         reviewText
       );
+
       if (!resFeedback) throw new Error("error with adding feedback");
-      program.Acceptedvolunteers.pop(volunteer_id);
+      program.Acceptedvolunteers = program.Acceptedvolunteers.filter(
+        (id) => id.toString() !== volunteer_id
+      );
       return await program.save();
     } catch (error) {
       console.error("Error send request to join program:", error);
@@ -122,19 +160,16 @@ module.exports = {
       const programsData = [];
       for (const programId of programs) {
         const program = await Program.findById(programId);
-        if (!program) {
-          throw new Error(`Program with ID ${programId} not found`);
+        if (program) {
+          programsData.push(program);
         }
-        programsData.push(program);
       }
-      return programsData;
+      const isEmpty = programsData.length === 0;
+      return isEmpty ? false : programsData;
     } catch (error) {
       console.error("Error retrieving program data:", error);
       throw error;
     }
-  },
-
-
-
-
+  }
+  
 };

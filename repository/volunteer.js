@@ -17,35 +17,29 @@ module.exports = {
     }
   },
 
-  
-  async signup(fullName, userName, password, skills, availability, role ,address){
-    try{
-      const newVolunteer = new Volunteer({
-        fullName,
-        userName,
-        password,
-        address,
-        skills: skills ? skills.split(",").map((skill) => skill.trim()) : [],
-        availability: availability ? availability.split(",").map((day) => day.trim()) : [],
-        role 
-      });
+  async signup(data) {
+    try {
+      const newVolunteer = new Volunteer(data);
       return await newVolunteer.save();
-    }
-    catch (error) {
+    } catch (error) {
       throw new Error("Error with volunteer signup");
     }
   },
 
   async getVolunteerData(_id) {
     try {
-        const volunteerData = await Volunteer.findById(_id);
-        if (!volunteerData) {
-          throw new Error(`volunteer with ID ${_id} not found`);
-        }
+      const volunteerData = await Volunteer.findById(_id);
+
+      if (!volunteerData) {
+        throw new Error(`volunteer with ID ${_id} not found`);
+      }
       return volunteerData;
     } catch (error) {
       console.error("Error retrieving program data:", error);
       throw error;
     }
   },
+
+
+  
 };

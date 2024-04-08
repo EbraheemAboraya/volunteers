@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const adminRepository = require("../repository/admin");
 const volunteerRepository = require("../repository/volunteer");
 
+function getTok(req, res) {}
+
 const login = async (req, res) => {
   const { userName, password } = req.body;
   try {
@@ -15,7 +17,7 @@ const login = async (req, res) => {
       if (volunteer) {
         user = volunteer;
       } else {
-        return res.status(401).send("Invalid username or password");
+        return res.send(false);
       }
     }
     if (password === user.password) {
@@ -26,25 +28,16 @@ const login = async (req, res) => {
         address: user.address,
         name: user.fullName,
       };
-
       const token = jwt.sign({ tokenPayload }, "my_secret_key");
       return res.json({ token: token });
     } else {
-      return false;
+      return res.send(false);
     }
   } catch (error) {
     console.error(error);
     res.status(500).send("Error logging in");
   }
 };
-
-function logout (req, res) {
-   res.clearCookie('my_secret_key');
-  
-};
-
-
-
 
 function ensureToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];
@@ -73,9 +66,28 @@ function getUserData(req, res) {
   }
 }
 
+const userImage = async (req, res) =>{
+  try {
+    const { role, id } = req.params;
+
+        if (role === "volunteer") {
+          const volImage = await volunteerRepository.getVolunteerData(id);
+          if (!volImage) return false
+          return res.status(200).send(volImage.image);
+        } else {
+          const adminImage = await adminRepository.getAdminData(id);
+          if (!adminImage) return false
+          return res.status(200).send(adminImage.image);
+        }
+  } catch (err) {
+    return res.status(err?.status || 500).json({ message: err.message });
+  }
+}
+
 module.exports = {
   login,
-  logout,
   ensureToken,
   getUserData,
+  getTok,
+  userImage,
 };
