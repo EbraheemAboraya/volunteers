@@ -77,7 +77,7 @@ const userImage = async (req, res) =>{
         } else {
           const adminImage = await adminRepository.getAdminData(id);
           if (!adminImage) return false
-          return res.status(200).send(adminImage.image);
+          return res.status(200).json(adminImage.image);
         }
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });

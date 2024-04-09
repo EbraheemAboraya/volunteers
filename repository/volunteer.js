@@ -11,7 +11,9 @@ module.exports = {
 
   async findByUsername(userName) {
     try {
-      return await Volunteer.findOne({ userName });
+      //  const user = await Volunteer.findOne({ userName });
+      return await Volunteer.findOne({ userName }).select("-image");
+     
     } catch (error) {
       throw new Error("Error finding user by username");
     }
@@ -39,7 +41,18 @@ module.exports = {
       throw error;
     }
   },
+  async getImage(_id) {
+    try {
+      const volunteerData = await Volunteer.findById(_id);
 
-
+      if (!volunteerData) {
+        throw new Error(`volunteer with ID ${_id} not found`);
+      }
+      return volunteerData.image;
+    } catch (error) {
+      console.error("Error retrieving program data:", error);
+      throw error;
+    }
+  },
   
 };

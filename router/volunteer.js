@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const volunteerController = require('../controllers/volunteerController');
 const loginController = require('../controllers/login');
-const multer = require("multer");
 const upload = require("../middleware/img");
 
 
@@ -13,6 +12,7 @@ router.post("/volunteer/signup",upload.single('selectedFile'),volunteerControlle
 router.post("/volunteer/sendToJoinProg",loginController.ensureToken,volunteerController.sendToJoin);
 router.get("/volunteer/progress",loginController.ensureToken,volunteerController.getProgress);
 router.post("/volunteer/finish-Program",loginController.ensureToken,volunteerController.finishProgram);
+router.get("/api/users",loginController.ensureToken,volunteerController.getUsersForSidebar);
 
 
 
