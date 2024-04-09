@@ -17,7 +17,7 @@ const login = async (req, res) => {
       if (volunteer) {
         user = volunteer;
       } else {
-        return res.send(false);
+        return res.status(401).send("Invalid username or password");
       }
     }
     if (password === user.password) {
@@ -66,10 +66,11 @@ function getUserData(req, res) {
   }
 }
 
-const userImage = async (req, res) =>{
+const userImage = async (req, res) => {
   try {
     const { role, id } = req.params;
 
+<<<<<<< HEAD
         if (role === "volunteer") {
           const volImage = await volunteerRepository.getVolunteerData(id);
           if (!volImage) return false
@@ -79,10 +80,21 @@ const userImage = async (req, res) =>{
           if (!adminImage) return false
           return res.status(200).json(adminImage.image);
         }
+=======
+    if (role === "volunteer") {
+      const volImage = await volunteerRepository.getVolunteerData(id);
+      if (!volImage) return false;
+      return res.status(200).send(volImage.image);
+    } else {
+      const adminImage = await adminRepository.getAdminData(id);
+      if (!adminImage) return false;
+      return res.status(200).send(adminImage.image);
+    }
+>>>>>>> c6afa91127711f4924486101fec2916bba664877
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });
   }
-}
+};
 
 module.exports = {
   login,

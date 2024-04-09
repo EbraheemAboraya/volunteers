@@ -6,7 +6,6 @@ const loginController = require("./login");
 const jwt = require("jsonwebtoken");
 const fs = require("fs").promises;
 
-
 const signup = async (req, res) => {
   const { fullName, userName, password, programs } = req.body;
   try {
@@ -25,45 +24,13 @@ const signup = async (req, res) => {
         contentType: req.file.mimetype,
         image: imageBuffer,
       },
-  });
+    });
     if (!admin) res.status(404).send("An error with saving admin");
     res.status(201).send("succfully");
   } catch (error) {
-    console.error("Error saving volunteer data:", error);
     res.status(500).send("An error occurred while saving admin data.");
   }
 };
-
-// let type;
-// if (maxVolunteer <= 3) {
-//   type = "Individual";
-// } else {
-//   type = "orgnaizaion";
-// }
-
-// const newProgram = await programRepo.addProgram({
-//   name,
-//   description,
-//   maxVolunteer,
-//   address,
-//   startDate,
-//   endDate,
-//   type,
-//   image: { filename, path }
-
-// });
-
-// if (!newProgram) throw new Error("An error with saving new program");
-// jwt.verify(req.token, "my_secret_key", async function (err, data) {
-//   if (err) {
-//     res.sendStatus(403);
-//   } else {
-//     const adminPrograms = await adminRepo.addProgramToAdmin(
-//       data.tokenPayload.id,
-//       newProgram._id
-//     );
-//   }
-// });
 
 const AddProgram = async (req, res) => {
   try {
@@ -117,7 +84,6 @@ const AddProgram = async (req, res) => {
     return res.status(err?.status || 500).json({ message: err.message });
   }
 };
-
 
 async function getImageBuffer(filePath) {
   try {
@@ -210,7 +176,6 @@ const getAdminData = async (req, res) => {
 
 const getAdminPrograms = async (req, res) => {
   try {
-
     const tokenWithoutQuotes = req.token.replace(/"/g, "");
     jwt.verify(tokenWithoutQuotes, "my_secret_key", async function (err, data) {
       if (err) {
@@ -221,7 +186,7 @@ const getAdminPrograms = async (req, res) => {
         const Programs = await programRepo.getProgramsData(adminData.programs);
         if (Programs === false || Programs.length === 0) {
           return res.send(false);
-        } 
+        }
         let adminPrograms = [];
         for (let i = 0; i < Programs.length; i++) {
           let program = Programs[i];

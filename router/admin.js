@@ -5,19 +5,19 @@ const checkRole = require("../middleware/authMiddleware");
 const loginController = require("../controllers/login");
 const upload = require("../middleware/img");
 
-
-router.post("/admin/signup", upload.single('selectedFile'),adminController.signup);
-
+router.post(
+  "/admin/signup",
+  upload.single("selectedFile"),
+  adminController.signup
+);
 
 router.post(
   "/add-program",
   loginController.ensureToken,
-  upload.single('selectedFile'),
+  upload.single("selectedFile"),
   adminController.AddProgram
 );
 
-
-// router.post("/add-program", loginController.ensureToken, adminController.AddProgram);
 router.put(
   "/update-program",
   loginController.ensureToken,
@@ -53,9 +53,6 @@ router.get(
   loginController.ensureToken,
   adminController.getProgramstoVolunteers
 );
-
-
-
 
 router.get(
   "/admin/getVolunteerData/:id",
