@@ -70,6 +70,17 @@ const userImage = async (req, res) => {
   try {
     const { role, id } = req.params;
 
+<<<<<<< HEAD
+        if (role === "volunteer") {
+          const volImage = await volunteerRepository.getVolunteerData(id);
+          if (!volImage) return false
+          return res.status(200).send(volImage.image);
+        } else {
+          const adminImage = await adminRepository.getAdminData(id);
+          if (!adminImage) return false
+          return res.status(200).json(adminImage.image);
+        }
+=======
     if (role === "volunteer") {
       const volImage = await volunteerRepository.getVolunteerData(id);
       if (!volImage) return false;
@@ -79,6 +90,7 @@ const userImage = async (req, res) => {
       if (!adminImage) return false;
       return res.status(200).send(adminImage.image);
     }
+>>>>>>> 0d73ed0454c43ad406d878aa327d4fba7417f52d
   } catch (err) {
     return res.status(err?.status || 500).json({ message: err.message });
   }

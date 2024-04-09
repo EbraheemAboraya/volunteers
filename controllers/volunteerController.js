@@ -1,4 +1,6 @@
 const programRepo = require("../repository/program");
+const volunteer = require("../repository/volunteer");
+const VolunteerModule = require("../models/volunteer");
 
 const volunteerRepo = require("../repository/volunteer");
 const jwt = require("jsonwebtoken");
@@ -6,10 +8,18 @@ const fs = require("fs").promises;
 
 const signup = async (req, res) => {
   const {
-    fullName, userName,password, skills,availability,address,sex,age,} = req.body;
+    fullName,
+    userName,
+    password,
+    skills,
+    availability,
+    address,
+    sex,
+    age,
+  } = req.body;
 
   try {
-    if (!fullName || !userName || !password ) {
+    if (!fullName || !userName || !password) {
       return res.status(400).send("Missing required fields");
     }
 
@@ -42,7 +52,6 @@ const signup = async (req, res) => {
     res.status(500).send("An error occurred while saving volunteer data.");
   }
 };
-
 
 async function getImageBuffer(filePath) {
   try {
@@ -101,13 +110,12 @@ const getIndividual = async (req, res) => {
 const sendToJoin = async (req, res) => {
   try {
     const program_id = req.body;
-    console.log(program_id)
     const tokenWithoutQuotes = req.token.replace(/"/g, "");
     jwt.verify(tokenWithoutQuotes, "my_secret_key", async function (err, data) {
       if (err) {
         res.sendStatus(403);
       } else {
-        const _id  = program_id.program_id;
+        const _id = program_id.program_id;
         const program = await programRepo.getProgramById(_id);
         if (program.maxVolunteer >= program.Acceptedvolunteers.length) {
           const resp = await programRepo.sendToJoin(
@@ -164,6 +172,26 @@ const finishProgram = async (req, res) => {
   }
 };
 
+const getUsersForSidebar = async (req, res) => {
+  try {
+    const tokenWithoutQuotes = req.token.replace(/"/g, "");
+    jwt.verify(tokenWithoutQuotes, "my_secret_key", async function (err, data) {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const filteredUsers = await VolunteerModule.find({
+          _id: { $ne: data.tokenPayload.id },
+        }).select("-password -address -age -sex -role -skills -availability");
+
+        res.status(200).send(filteredUsers);
+      }
+    });
+  } catch (error) {
+    console.error("Error in getUsersForSidebar: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   getPrograms,
   signup,
@@ -171,4 +199,5 @@ module.exports = {
   sendToJoin,
   getProgress,
   finishProgram,
+  getUsersForSidebar,
 };

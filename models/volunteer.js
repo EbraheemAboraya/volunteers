@@ -17,7 +17,7 @@ const volunteerSchema = new mongoose.Schema({
     contentType: String,
     image: Buffer
   },
-});
+},{timestamps: true});
 
 const Volunteer = mongoose.model("Volunteer", volunteerSchema);
 

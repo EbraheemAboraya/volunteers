@@ -9,9 +9,10 @@ const path = require("path");
 const feedback = require("./router/feedback");
 const bodyParser = require("body-parser");
 const report = require("./router/report");
+const messageRoutes = require("./router/messages.routes");
+const {app ,server} = require("./socket/socket");
 
-const app = express();
-const port = process.env.PORT || 2000;
+const port = process.env.PORT || 7000;
 
 app.use(cors());
 
@@ -41,8 +42,12 @@ app.use(adminRout);
 app.use(volunteerRout);
 app.use(feedback);
 app.use(report);
+app.use("/api/messages",messageRoutes);
 
-app.listen(port, () => {
+
+
+
+server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 

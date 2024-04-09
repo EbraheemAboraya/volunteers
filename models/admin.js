@@ -14,7 +14,7 @@ const adminSchema = new mongoose.Schema({
     contentType: String,
     image: Buffer
   },
-});
+},{timestamps: true});
 
 const Admin = mongoose.model("Admin", adminSchema);
 
