@@ -13,14 +13,20 @@ const messageRoutes = require("./router/messages.routes");
 const {app ,server} = require("./socket/socket");
 
 const port = process.env.PORT || 7000;
+const corsOptions = {
+  origin: 'https://d17wenqoyvy5np.cloudfront.net',
+  optionsSuccessStatus: 200 
+};
 
-app.use(cors());
+
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(cors(corsOptions));
+app.use(cors());
 
 const fs = require("fs");
 const dir = "./uploads";
@@ -31,7 +37,6 @@ if (!fs.existsSync(dir)) {
 
 const uploadsDir = path.join(__dirname, "uploads");
 
-app.use(cors());
 app.set("view engine", "ejs");
 
 connectDB();
