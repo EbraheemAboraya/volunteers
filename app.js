@@ -13,10 +13,28 @@ const messageRoutes = require("./router/messages.routes");
 const {app ,server} = require("./socket/socket");
 
 const port = process.env.PORT || 7000;
+
+// CORS configuration - allow multiple origins
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://celadon-mooncake-e0352e.netlify.app'
+];
+
 const corsOptions = {
-  origin: 'https://celadon-mooncake-e0352e.netlify.app',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 
