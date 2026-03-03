@@ -15,18 +15,18 @@ const {app ,server} = require("./socket/socket");
 const port = process.env.PORT || 7000;
 const corsOptions = {
   origin: 'https://celadon-mooncake-e0352e.netlify.app',
+  credentials: true,
   optionsSuccessStatus: 200
 };
 
 
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors(corsOptions));
-app.use(cors());
 
 const fs = require("fs");
 const dir = "./uploads";
