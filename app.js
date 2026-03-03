@@ -14,8 +14,8 @@ const {app ,server} = require("./socket/socket");
 
 const port = process.env.PORT || 7000;
 const corsOptions = {
-  origin: 'https://d17wenqoyvy5np.cloudfront.net',
-  optionsSuccessStatus: 200 
+  origin: 'https://celadon-mooncake-e0352e.netlify.app',
+  optionsSuccessStatus: 200
 };
 
 
